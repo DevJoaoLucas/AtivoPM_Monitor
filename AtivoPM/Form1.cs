@@ -96,6 +96,7 @@ namespace AtivoPM
             {
                 dataGridView.DataSource = dataTable;
             }
+
         }
 
         private void buttonSuporte_Click(object sender, EventArgs e)
