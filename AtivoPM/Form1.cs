@@ -125,7 +125,7 @@ namespace AtivoPM
                         DataTable dataTable = GetMySQLData();
                         UpdateStatusLabel(dataTable);
                         UpdateDataGridView(dataTable);
-                        VerificarStatusEmpresas(); // Adicionamos a verificação do status das empresas aqui
+                        VerificarStatusEmpresas(); 
                         AtualizarLabelsEmLoop();
                         dataGridView.CellFormatting += DataGridView_CellFormatting;
                         AtualizarDataGridViewErrosEmLoop();
@@ -138,7 +138,7 @@ namespace AtivoPM
                             errorDisplayed = true;
                         }
 
-                        // Encerra a aplicação completamente
+
                         Application.Exit();
                     }
 
@@ -215,18 +215,17 @@ namespace AtivoPM
             }
             else
             {
-                bool notificationDisplayed = false; // Variável para controlar se a notificação já foi exibida
+                bool notificationDisplayed = false; 
 
-                // Atualizar o DataGridView
+
                 dataGridView.DataSource = dataTable;
 
-                // Loop pelas linhas do DataGridView para colorir de acordo com o status das empresas
                 foreach (DataGridViewRow row in dataGridView.Rows)
                 {
                     string statusIS = row.Cells[".IS"].Value.ToString();
                     string Gateway = row.Cells["Gateway"].Value.ToString();
 
-                    // Colorir a célula de verde se estiver em excelente estado, vermelho se houver problemas
+  
                     if (statusIS == "EM EXECUÇÃO" && Gateway == "EM EXECUÇÃO")
                     {
                         row.Cells[".IS"].Style.BackColor = Color.LightGreen;
@@ -236,11 +235,10 @@ namespace AtivoPM
                     {
                         row.Cells[".IS"].Style.BackColor = Color.Red;
                         row.Cells["Gateway"].Style.BackColor = Color.Red;
-
-                        // Verificar se a notificação já foi exibida
+                        
                         if (!notificationDisplayed)
                         {
-                            // Determinar qual serviço está parado e ajustar a mensagem da notificação
+
                             string serviceName = "";
                             if (statusIS != "EM EXECUÇÃO")
                             {
@@ -251,11 +249,11 @@ namespace AtivoPM
                                 serviceName = "Data Gateway";
                             }
 
-                            // Exibir a notificação do Windows com a mensagem apropriada
+
                             if (!string.IsNullOrEmpty(serviceName))
                             {
                                 NotificarServicoParado(serviceName + " parado", row.Cells["Empresa"].Value.ToString());
-                                notificationDisplayed = true; // Atualizar a flag para indicar que a notificação foi exibida
+                                notificationDisplayed = true; 
                             }
                         }
                     }
@@ -271,7 +269,7 @@ namespace AtivoPM
             }
             else
             {
-                // Atualizar o DataGridViewErros
+
                 dataGridViewErros.DataSource = errorTable;
             }
         }
@@ -296,17 +294,17 @@ namespace AtivoPM
                         }
                     }
 
-                    Thread.Sleep(5000); // Aguarda 5 segundos antes de verificar novamente
+                    Thread.Sleep(5000);
                 }
             });
 
-            errorUpdateThread.IsBackground = true; // Define a thread como background para encerrar junto com a aplicação
+            errorUpdateThread.IsBackground = true; 
             errorUpdateThread.Start();
         }
 
         private void NotificarServicoParado(string tipoServico, string empresa)
         {
-            // Ajustando a mensagem para refletir o tipo de serviço
+
             notifyIcon1.ShowBalloonTip(5000, "Ativo .PM", "" + tipoServico + " na Empresa " + empresa + "",
                 ToolTipIcon.Warning);
         }
@@ -370,7 +368,6 @@ namespace AtivoPM
                     }
                 }
 
-                // Atualize os controles da UI dentro deste bloco
                 lblEmpSaudaveis.Text = empresasSaudaveis.ToString() + " em excelente estado";
                 lblEmpSaudaveis.Font = new Font(lblEmpSaudaveis.Font, FontStyle.Bold);
                 lblEmpSaudaveis.ForeColor = Color.DarkOliveGreen;
